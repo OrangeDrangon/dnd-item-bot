@@ -4,11 +4,31 @@ import { getEmojis } from "./getEmojis";
 
 export async function createCurrencyEmbed(guild: Guild, copperCount: number) {
   const emojis = await getEmojis(guild, [
-    { name: "platinum", fallbackUrl: "" },
-    { name: "gold", fallbackUrl: "" },
-    { name: "electrum", fallbackUrl: "" },
-    { name: "silver", fallbackUrl: "" },
-    { name: "copper", fallbackUrl: "" }
+    {
+      name: "platinum",
+      fallbackUrl:
+        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/platinum.png"
+    },
+    {
+      name: "gold",
+      fallbackUrl:
+        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/gold.png"
+    },
+    {
+      name: "electrum",
+      fallbackUrl:
+        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/electrum.png"
+    },
+    {
+      name: "silver",
+      fallbackUrl:
+        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/silver.png"
+    },
+    {
+      name: "copper",
+      fallbackUrl:
+        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/copper.png"
+    }
   ]);
 
   const currency = convertCurrencyDisplay(copperCount);
