@@ -56,6 +56,7 @@ module.exports = class CurrencyCommand extends Command {
       await embedMessage.edit(
         await createCurrencyEmbed(guild, guildEntry.channel.copper)
       );
+      await this.db.updateCurrency(guildEntry.id, guildEntry.channel.copper);
       return await message.delete();
     }
     return await message.say("Error modifying currency.");

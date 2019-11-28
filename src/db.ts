@@ -29,6 +29,13 @@ export async function createDb() {
         .get("guilds")
         .remove({ id })
         .write();
+    },
+    updateCurrency: async (id: string, value: number): Promise<void> => {
+      await db
+        .get("guilds")
+        .find({ id })
+        .set("channel.copper", value)
+        .write();
     }
   };
 }
