@@ -35,9 +35,9 @@ export async function createCurrencyEmbed(guild: Guild, copperCount: number) {
 
   return new MessageEmbed()
     .setColor("RANDOM")
-    .setTitle("Assets")
+    .setTitle("Coin")
     .setDescription(
-      "The amount of generic non useful assets the party has acquired."
+      "The amount of coin the party has acquired."
     )
     .addField(`${emojis[0]}<-Platinum->${emojis[0]}`, currency.platinum, true)
     .addField(`${emojis[1]}<-Gold->${emojis[1]}`, currency.gold, true)
