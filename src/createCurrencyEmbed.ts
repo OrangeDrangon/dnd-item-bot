@@ -2,33 +2,36 @@ import { MessageEmbed, Guild } from "discord.js";
 import { convertCurrencyDisplay } from "./convertCurrency";
 import { getEmojis } from "./getEmojis";
 
-export async function createCurrencyEmbed(guild: Guild, copperCount: number) {
+export async function createCurrencyEmbed(
+  guild: Guild,
+  copperCount: number
+): Promise<MessageEmbed> {
   const emojis = await getEmojis(guild, [
     {
       name: "platinum",
       fallbackUrl:
-        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/platinum.png"
+        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/platinum.png",
     },
     {
       name: "gold",
       fallbackUrl:
-        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/gold.png"
+        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/gold.png",
     },
     {
       name: "electrum",
       fallbackUrl:
-        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/electrum.png"
+        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/electrum.png",
     },
     {
       name: "silver",
       fallbackUrl:
-        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/silver.png"
+        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/silver.png",
     },
     {
       name: "copper",
       fallbackUrl:
-        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/copper.png"
-    }
+        "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/copper.png",
+    },
   ]);
 
   const currency = convertCurrencyDisplay(copperCount);
@@ -36,9 +39,7 @@ export async function createCurrencyEmbed(guild: Guild, copperCount: number) {
   return new MessageEmbed()
     .setColor("RANDOM")
     .setTitle("Coin")
-    .setDescription(
-      "The amount of coin the party has acquired."
-    )
+    .setDescription("The amount of coin the party has acquired.")
     .addField(`${emojis[0]}<-Platinum->${emojis[0]}`, currency.platinum, true)
     .addField(`${emojis[1]}<-Gold->${emojis[1]}`, currency.gold, true)
     .addField(`${emojis[2]}<-Electrum->${emojis[2]}`, currency.electrum, true)

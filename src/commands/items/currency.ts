@@ -1,11 +1,11 @@
 import { Command, CommandoMessage } from "discord.js-commando";
 import { Client } from "../../client";
 import { Database } from "../../types/database.types";
-import { TextChannel, MessageEmbed, Message } from "discord.js";
+import { Message } from "discord.js";
 import { createCurrencyEmbed } from "../../createCurrencyEmbed";
 import { convertCurrencyStorage } from "../../convertCurrency";
 
-interface IArgs {
+interface Args {
   variation: "platinum" | "gold" | "electrum" | "silver" | "copper";
   count: number;
 }
@@ -25,26 +25,26 @@ module.exports = class CurrencyCommand extends Command {
           prompt:
             "Type of the thing to add. <platinum | gold | electrum | silver | copper>.",
           type: "string",
-          validate: (text: string) =>
+          validate: (text: string): boolean =>
             ["platinum", "gold", "electrum", "silver", "copper"].includes(
               text.toLowerCase()
             )
               ? true
-              : false
+              : false,
         },
         {
           key: "count",
           prompt: "Number to add or subtract",
-          type: "integer"
-        }
-      ]
+          type: "integer",
+        },
+      ],
     });
     this.db = client.db;
   }
 
   async run(
     message: CommandoMessage,
-    { variation, count }: IArgs
+    { variation, count }: Args
   ): Promise<Message | Message[]> {
     const { guild } = message;
     const guildEntry = await this.db.getGuild(guild.id);

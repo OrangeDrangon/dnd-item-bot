@@ -1,6 +1,6 @@
 import { Command, CommandoMessage } from "discord.js-commando";
-import { Message, TextChannel, MessageEmbed } from "discord.js";
-import { Database, IGuild } from "../../types/database.types";
+import { Message, TextChannel } from "discord.js";
+import { Database, Guild } from "../../types/database.types";
 import { Client } from "../../client";
 import { createCurrencyEmbed } from "../../createCurrencyEmbed";
 
@@ -15,7 +15,7 @@ module.exports = class InitializeCommand extends Command {
       description: "Initializes this channel for item management purposes",
       guildOnly: true,
       userPermissions: ["MANAGE_CHANNELS", "MANAGE_EMOJIS"],
-      clientPermissions: ["MANAGE_CHANNELS", "MANAGE_EMOJIS"]
+      clientPermissions: ["MANAGE_CHANNELS", "MANAGE_EMOJIS"],
     });
     this.db = client.db;
   }
@@ -32,7 +32,7 @@ module.exports = class InitializeCommand extends Command {
       channel = (await guild.channels.create("items", {
         type: "text",
         parent: parentId ? parentId.toString() : undefined,
-        topic: "Item tracking channel for the game!"
+        topic: "Item tracking channel for the game!",
       })) as TextChannel;
     } else {
       return await message.say("Items channel already exists!");
@@ -43,15 +43,15 @@ module.exports = class InitializeCommand extends Command {
         await createCurrencyEmbed(guild, 0)
       )) as Message;
 
-      const dbEntry: IGuild = {
+      const dbEntry: Guild = {
         id: guild.id,
         channel: {
           id: channel.id,
           currencyMessageId: currencyMessage.id,
           itemsMessageId: "",
           copper: 0,
-          items: []
-        }
+          items: [],
+        },
       };
 
       await this.db.addGuild(dbEntry);

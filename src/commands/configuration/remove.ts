@@ -14,7 +14,7 @@ module.exports = class RemoveCommand extends Command {
       description:
         "Removes the items channel from the database and the server.",
       guildOnly: true,
-      userPermissions: ["MANAGE_CHANNELS"]
+      userPermissions: ["MANAGE_CHANNELS"],
     });
     this.db = client.db;
   }
@@ -27,7 +27,7 @@ module.exports = class RemoveCommand extends Command {
         "Items channel does not exist there is nothing to remove!"
       );
     }
-    const toRemove = guild.channels.find(c => c.id === guildEntry.channel.id);
+    const toRemove = guild.channels.find((c) => c.id === guildEntry.channel.id);
     if (toRemove) {
       await toRemove.delete();
     }

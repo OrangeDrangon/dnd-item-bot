@@ -1,23 +1,23 @@
-import { IGuild, IDb } from "./types/database.types";
+import { Guild, Db, Database } from "./types/database.types";
 import FileAsync from "lowdb/adapters/FileAsync";
 import Lowdb from "lowdb";
 import path from "path";
 
-export async function createDb() {
+export async function createDb(): Promise<Database> {
   const db = await Lowdb(
-    new FileAsync<IDb>(path.join(__dirname, "database.json"), {
-      defaultValue: { guilds: [] }
+    new FileAsync<Db>(path.join(__dirname, "database.json"), {
+      defaultValue: { guilds: [] },
     })
   );
 
   return {
-    addGuild: async (guild: IGuild): Promise<void> => {
+    addGuild: async (guild: Guild): Promise<void> => {
       await db
         .get("guilds")
         .push(guild)
         .write();
     },
-    getGuild: async (id: string): Promise<IGuild> => {
+    getGuild: async (id: string): Promise<Guild> => {
       return db
         .get("guilds")
         .filter({ id })
@@ -36,6 +36,6 @@ export async function createDb() {
         .find({ id })
         .set("channel.copper", value)
         .write();
-    }
+    },
   };
 }

@@ -6,23 +6,21 @@ import dotenv from "dotenv";
 import { createDb } from "./db";
 import { Client } from "./client";
 
-async function main() {
+async function main(): Promise<void> {
   dotenv.config();
 
   const client = new Client(await createDb(), {
-    owner: "255482941876994059"
+    owner: "255482941876994059",
   });
 
-  const sqlitedb = await sqlite.open(
-    path.join(__dirname, "settings.sqlite3")
-  );
+  const sqlitedb = await sqlite.open(path.join(__dirname, "settings.sqlite3"));
   client.setProvider(new SQLiteProvider(sqlitedb));
 
   client.registry
     .registerDefaultTypes()
     .registerGroups([
       ["configuration", "Configuration"],
-      ["items", "Item Managment"]
+      ["items", "Item Managment"],
     ])
     .registerDefaultGroups()
     .registerDefaultCommands()
@@ -35,7 +33,7 @@ async function main() {
       const inviteLink = await client.generateInvite([
         "MANAGE_CHANNELS",
         "MANAGE_EMOJIS",
-        "MANAGE_MESSAGES"
+        "MANAGE_MESSAGES",
       ]);
       console.log("Invite link: " + inviteLink);
     }

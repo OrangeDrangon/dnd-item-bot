@@ -1,29 +1,29 @@
-export interface IItem {
+export interface Item {
   name: string;
   value: string;
   description: string;
 }
 
-export interface IChannel {
+export interface Channel {
   id: string;
   copper: number;
-  items: IItem[];
+  items: Item[];
   currencyMessageId: string;
   itemsMessageId: string;
 }
 
-export interface IGuild {
+export interface Guild {
   id: string;
-  channel: IChannel;
+  channel: Channel;
 }
 
-export interface IDb {
-  guilds: IGuild[];
+export interface Db {
+  guilds: Guild[];
 }
 
 export type Database = {
-  addGuild: (guild: IGuild) => Promise<void>;
-  getGuild: (id: string) => Promise<IGuild>;
+  addGuild: (guild: Guild) => Promise<void>;
+  getGuild: (id: string) => Promise<Guild>;
   removeGuild: (id: string) => Promise<void>;
-  updateCurrency: (id: string, value: number) => Promise<void>
+  updateCurrency: (id: string, value: number) => Promise<void>;
 };
