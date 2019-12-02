@@ -5,7 +5,7 @@ import connect, {
   ConnectionPool,
 } from "@databases/pg";
 import { Wallet, WalletEntry, WalletQuery } from "../interfaces/wallet";
-import { generateQuery } from "../util/generateQuery";
+import { generateAndQuery, generateCommaQuery } from "../util/generateQuery";
 
 async function initializeDatabase(
   connectionPool: ConnectionPool
@@ -66,28 +66,24 @@ export async function createDatabase({
       )[0];
     },
     removeWallet: async (queryParams: WalletQuery): Promise<void> => {
-      const query = generateQuery(
-        "DELETE FROM wallets WHERE",
-        queryParams,
-        "AND"
-      );
+      const query = sql`DELETE FROM wallets WHERE ${generateAndQuery(
+        queryParams
+      )};`;
       await connectionPool.query(query);
     },
     getWallets: async (queryParams: WalletQuery): Promise<Wallet[]> => {
-      const query = generateQuery(
-        "SELECT * FROM wallets WHERE",
-        queryParams,
-        "AND"
-      );
+      const query = sql`SELECT * FROM wallets WHERE ${generateAndQuery(
+        queryParams
+      )};`;
       return (await connectionPool.query(query)) as Wallet[];
     },
     updateWallet: async (wallet: Wallet): Promise<Wallet> => {
-      const query = sql`${generateQuery(
-        sql`UPDATE wallets SET ${generateQuery("", wallet, ", ")} WHERE`,
-        { id: wallet.id, guildId: wallet.guildId },
-        "AND",
-        "RETURNING *"
-      )}`;
+      const query = sql`UPDATE wallets SET ${generateCommaQuery(
+        wallet
+      )} WHERE ${generateAndQuery({
+        id: wallet.id,
+        guildId: wallet.guildId,
+      })} RETURNING *;`;
       return (await connectionPool.query(query))[0];
     },
   };

@@ -1,7 +1,7 @@
 export function getCurrencyName(
   variation: string
 ): "platinum" | "gold" | "electrum" | "silver" | "copper" {
-  switch (variation) {
+  switch (variation.toLowerCase()) {
     case "platinum" || "p":
       return "platinum";
     case "gold" || "g":

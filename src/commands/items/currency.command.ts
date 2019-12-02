@@ -49,9 +49,7 @@ module.exports = class CurrencyCommand extends Command {
               "e",
               "s",
               "c",
-            ].includes(text.toLowerCase())
-              ? true
-              : false,
+            ].includes(text.toLowerCase()),
         },
         {
           key: "count",

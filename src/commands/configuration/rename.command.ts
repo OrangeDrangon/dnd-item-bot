@@ -8,7 +8,6 @@ module.exports = class RenameCommand extends Command {
   constructor(client: Client) {
     super(client, {
       name: "rename",
-      aliases: ["r"],
       group: "configuration",
       description: "Renames the wallet and channel",
       memberName: "rename",

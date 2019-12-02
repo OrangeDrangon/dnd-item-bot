@@ -1,13 +1,15 @@
 import { sql, SQLQuery } from "@databases/pg";
 
-export function generateQuery(
-  base: string | SQLQuery,
-  filter: { [key: string]: unknown },
-  seperator: string | SQLQuery,
-  ending?: string | SQLQuery
-): SQLQuery {
-  return sql`${base} ${sql.join(
-    Object.keys(filter).map((key) => sql`"${key}" = ${filter[key]}`),
-    sql` ${seperator} `
-  )} ${ending};`;
+export function generateAndQuery(filter: { [key: string]: any }): SQLQuery {
+  return sql`${sql.join(
+    Object.keys(filter).map((key) => sql`(${sql.ident(key)} = ${filter[key]})`),
+    sql` AND `
+  )}`;
+}
+
+export function generateCommaQuery(filter: { [key: string]: any }): SQLQuery {
+  return sql`${sql.join(
+    Object.keys(filter).map((key) => sql`(${sql.ident(key)} = ${filter[key]})`),
+    sql`, `
+  )}`;
 }
