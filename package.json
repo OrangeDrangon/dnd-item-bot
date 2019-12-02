@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
+    "@databases/pg": "^2.0.0",
     "@types/better-sqlite3": "^5.4.0",
-    "@types/lodash": "^4.14.149",
     "@types/lowdb": "^1.0.9",
     "@types/node": "^12.12.14",
     "@types/ws": "^6.0.4",
@@ -12,8 +12,6 @@
     "discord.js": "discordjs/discord.js",
     "discord.js-commando": "discordjs/Commando",
     "dotenv": "^8.2.0",
-    "lowdb": "^1.0.0",
-    "pg": "^7.14.0",
     "source-map-support": "^0.5.16",
     "sqlite": "^3.0.3",
     "typescript": "^3.7.2"

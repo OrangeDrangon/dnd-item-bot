@@ -1,8 +1,8 @@
 import { Command, CommandoMessage } from "discord.js-commando";
 import { Message, TextChannel } from "discord.js";
-import { Database, Guild } from "../../types/database.types";
 import { Client } from "../../util/client";
 import { createCurrencyEmbed } from "../../util/createCurrencyEmbed";
+import { Database } from "../../database/database";
 
 module.exports = class InitializeCommand extends Command {
   private db: Database;
@@ -21,10 +21,12 @@ module.exports = class InitializeCommand extends Command {
   }
   async run(message: CommandoMessage): Promise<Message | Message[]> {
     const { guild } = message;
-    const guildEntry = await this.db.getGuild(message.guild.id);
+    const guildEntries = await this.db.getWallets({
+      guildId: guild.id,
+    });
 
     let channel: TextChannel | undefined = undefined;
-    if (guildEntry == null) {
+    if (guildEntries.length === 0) {
       let parentId;
       if (message.channel instanceof TextChannel) {
         parentId = message.channel.parentID;
@@ -39,22 +41,26 @@ module.exports = class InitializeCommand extends Command {
     }
 
     if (channel != null) {
-      const currencyMessage = (await channel.send(
-        await createCurrencyEmbed(guild, 0)
-      )) as Message;
-
-      const dbEntry: Guild = {
-        id: guild.id,
-        channel: {
-          id: channel.id,
-          currencyMessageId: currencyMessage.id,
-          itemsMessageId: "",
-          copper: 0,
-          items: [],
-        },
+      const defaultCurrency = {
+        platinum: 0,
+        gold: 0,
+        electrum: 0,
+        silver: 0,
+        copper: 0,
       };
 
-      await this.db.addGuild(dbEntry);
+      const currencyMessage = (await channel.send(
+        await createCurrencyEmbed(guild, defaultCurrency)
+      )) as Message;
+
+      this.db.addWallet({
+        guildId: guild.id,
+        channelId: channel.id,
+        messageId: currencyMessage.id,
+        isDefault: true,
+        name: "Default Wallet",
+      });
+
       return await message.say(`Your new ${channel} channel has been created!`);
     } else {
       return await message.say("Error creating new channel!");

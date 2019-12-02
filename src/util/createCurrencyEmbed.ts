@@ -1,10 +1,10 @@
 import { MessageEmbed, Guild } from "discord.js";
-import { convertCurrencyDisplay } from "./convertCurrency";
 import { getEmojis } from "./getEmojis";
+import { Currency } from "../interfaces/currency";
 
 export async function createCurrencyEmbed(
   guild: Guild,
-  copperCount: number
+  currency: Currency
 ): Promise<MessageEmbed> {
   const emojis = await getEmojis(guild, [
     {
@@ -33,8 +33,6 @@ export async function createCurrencyEmbed(
         "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/copper.png",
     },
   ]);
-
-  const currency = convertCurrencyDisplay(copperCount);
 
   return new MessageEmbed()
     .setColor("RANDOM")
