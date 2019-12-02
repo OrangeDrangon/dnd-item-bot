@@ -20,7 +20,7 @@ module.exports = class RemoveCommand extends Command {
         {
           key: "name",
           prompt:
-            "Name of the wallet to move. This is the same as the channel name.",
+            "Name of the wallet to remove. This is the same as the channel name.",
           type: "string",
         },
       ],
