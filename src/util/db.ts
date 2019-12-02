@@ -1,4 +1,4 @@
-import { Guild, Db, Database } from "./types/database.types";
+import { Guild, Db, Database } from "../types/database.types";
 import FileAsync from "lowdb/adapters/FileAsync";
 import Lowdb from "lowdb";
 import path from "path";

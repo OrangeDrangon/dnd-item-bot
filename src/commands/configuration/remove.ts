@@ -1,5 +1,5 @@
 import { Command, CommandoMessage } from "discord.js-commando";
-import { Client } from "../../client";
+import { Client } from "../../util/client";
 import { Database } from "../../types/database.types";
 import { Message } from "discord.js";
 

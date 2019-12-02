@@ -1,9 +1,9 @@
 import { Command, CommandoMessage } from "discord.js-commando";
-import { Client } from "../../client";
+import { Client } from "../../util/client";
 import { Database } from "../../types/database.types";
 import { Message } from "discord.js";
-import { createCurrencyEmbed } from "../../createCurrencyEmbed";
-import { convertCurrencyStorage } from "../../convertCurrency";
+import { createCurrencyEmbed } from "../../util/createCurrencyEmbed";
+import { convertCurrencyStorage } from "../../util/convertCurrency";
 
 interface Args {
   variation: "platinum" | "gold" | "electrum" | "silver" | "copper";
