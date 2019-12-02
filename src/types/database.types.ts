@@ -21,9 +21,9 @@ export interface Db {
   guilds: Guild[];
 }
 
-export type Database = {
+export interface Database {
   addGuild: (guild: Guild) => Promise<void>;
   getGuild: (id: string) => Promise<Guild>;
   removeGuild: (id: string) => Promise<void>;
   updateCurrency: (id: string, value: number) => Promise<void>;
-};
+}
