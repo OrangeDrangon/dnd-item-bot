@@ -4,7 +4,7 @@ import connect, {
   ConnectionParams,
   ConnectionPool,
 } from "@databases/pg";
-import { Wallet, WalletEntry } from "../interfaces/wallet";
+import { Wallet, WalletEntry, WalletQuery } from "../interfaces/wallet";
 
 async function initializeDatabase(
   connectionPool: ConnectionPool
@@ -31,14 +31,8 @@ async function initializeDatabase(
 export interface Database {
   rawQuery: (query: string) => Promise<unknown[]>;
   addWallet: (data: WalletEntry) => Promise<Wallet>;
-  removeWallet: (filters: {
-    name?: string | undefined;
-    guildId?: string | undefined;
-  }) => Promise<void>;
-  getWallets: (filters: {
-    name?: string | undefined;
-    guildId: string;
-  }) => Promise<Wallet[]>;
+  removeWallet: (queryParams: WalletQuery) => Promise<void>;
+  getWallets: (queryParams: WalletQuery) => Promise<Wallet[]>;
 }
 
 export async function createDatabase({
@@ -69,47 +63,22 @@ export async function createDatabase({
         )
       )[0];
     },
-    removeWallet: async ({
-      name,
-      guildId,
-    }: {
-      name?: string;
-      guildId?: string;
-    }): Promise<void> => {
-      if (name != null && guildId == null) {
-        throw new Error("If name is defined guildId must also be provided!");
-      } else if (name != null && guildId != null) {
-        await connectionPool.query(
-          sql`DELETE FROM wallets WHERE "guildId" = ${guildId} AND "name" = ${name};`
-        );
-      } else if (name == null && guildId != null) {
-        await connectionPool.query(
-          sql`DELETE FROM wallets WHERE "guildId" = ${guildId};`
-        );
-      } else if (name == null && guildId == null) {
-        throw new Error("No filter was provided!");
-      }
+    removeWallet: async (queryParams: WalletQuery): Promise<void> => {
+      let query = sql`DELETE FROM wallets WHERE ${sql.join(
+        Object.keys(queryParams).map(
+          (key) => sql`"${key}" = ${(queryParams as any)[key]}`
+        ),
+        sql` AND `
+      )}`;
     },
-    getWallets: async ({
-      name,
-      guildId,
-      isDefault,
-    }: {
-      name?: string;
-      guildId: string;
-      isDefault?: boolean;
-    }): Promise<Wallet[]> => {
-      const result: Wallet[] = await connectionPool.query(
-        sql`SELECT * FROM wallets WHERE "guildId" = ${guildId}`
-      );
-      let filtered = result;
-      if (name != null) {
-        filtered = result.filter((e) => e.name === name);
-      }
-      if (isDefault != null) {
-        filtered = result.filter((e) => e.isDefault === isDefault);
-      }
-      return filtered;
+    getWallets: async (queryParams: WalletQuery): Promise<Wallet[]> => {
+      let query = sql`SELECT * FROM wallets WHERE ${sql.join(
+        Object.keys(queryParams).map(
+          (key) => sql`"${key}" = ${(queryParams as any)[key]}`
+        ),
+        sql` AND `
+      )}`;
+      return (await connectionPool.query(query)) as Wallet[];
     },
   };
 }
