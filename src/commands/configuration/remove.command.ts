@@ -2,7 +2,6 @@ import { Command, CommandoMessage } from "discord.js-commando";
 import { Client } from "../../util/client";
 import { Message } from "discord.js";
 import { Database } from "../../database/database";
-import { type } from "os";
 
 module.exports = class RemoveCommand extends Command {
   private db: Database;

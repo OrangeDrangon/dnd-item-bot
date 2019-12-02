@@ -1,4 +1,6 @@
-export function getCurrencyName(variation: string) {
+export function getCurrencyName(
+  variation: string
+): "platinum" | "gold" | "electrum" | "silver" | "copper" {
   switch (variation) {
     case "platinum" || "p":
       return "platinum";

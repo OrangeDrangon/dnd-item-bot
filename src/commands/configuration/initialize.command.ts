@@ -22,8 +22,8 @@ module.exports = class InitializeCommand extends Command {
           prompt: "The name of the channel and wallet to be created.",
           type: "string",
           default: "party-purse",
-          parse: (arg: string) => arg.replace(/ /g, "-"),
-          validate: (arg: string) => arg.length > 3,
+          parse: (arg: string): string => arg.replace(/ /g, "-"),
+          validate: (arg: string): boolean => arg.length > 3,
         },
       ],
     });
@@ -66,7 +66,7 @@ module.exports = class InitializeCommand extends Command {
         await createCurrencyEmbed(guild, defaultCurrency)
       )) as Message;
 
-      let isDefault = name === "party-purse";
+      const isDefault = name === "party-purse";
 
       this.db.addWallet({
         guildId: guild.id,

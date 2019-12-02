@@ -1,5 +1,3 @@
-
-
 export interface Wallet {
   readonly id: number;
   guildId: string;
@@ -31,4 +29,3 @@ export type WalletEntry = Omit<
   Wallet,
   "id" | "platinum" | "gold" | "electrum" | "silver" | "copper"
 >;
-

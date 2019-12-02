@@ -66,7 +66,7 @@ export async function createDatabase({
       )[0];
     },
     removeWallet: async (queryParams: WalletQuery): Promise<void> => {
-      let query = generateQuery(
+      const query = generateQuery(
         "DELETE FROM wallets WHERE",
         queryParams,
         "AND"
@@ -74,7 +74,7 @@ export async function createDatabase({
       await connectionPool.query(query);
     },
     getWallets: async (queryParams: WalletQuery): Promise<Wallet[]> => {
-      let query = generateQuery(
+      const query = generateQuery(
         "SELECT * FROM wallets WHERE",
         queryParams,
         "AND"
@@ -82,7 +82,7 @@ export async function createDatabase({
       return (await connectionPool.query(query)) as Wallet[];
     },
     updateWallet: async (wallet: Wallet): Promise<Wallet> => {
-      let query = sql`${generateQuery(
+      const query = sql`${generateQuery(
         sql`UPDATE wallets SET ${generateQuery("", wallet, ", ")} WHERE`,
         { id: wallet.id, guildId: wallet.guildId },
         "AND",

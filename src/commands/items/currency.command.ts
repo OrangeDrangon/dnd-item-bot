@@ -95,7 +95,9 @@ module.exports = class CurrencyCommand extends Command {
     if (embedMessage) {
       return await embedMessage.edit(createCurrencyEmbed(guild, currency));
     } else {
-      const messageNew = await channel.send(createCurrencyEmbed(guild, currency));
+      const messageNew = await channel.send(
+        createCurrencyEmbed(guild, currency)
+      );
       wallet.messageId = messageNew.id;
       await this.db.updateWallet(wallet);
       return messageNew;

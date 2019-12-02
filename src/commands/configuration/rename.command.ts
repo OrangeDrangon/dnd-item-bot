@@ -17,8 +17,8 @@ module.exports = class RenameCommand extends Command {
           key: "name",
           prompt: "New name for the channel",
           type: "string",
-          parse: (arg: string) => arg.replace(/ /g, "-"),
-          validate: (arg: string) => arg.length > 3,
+          parse: (arg: string): string => arg.replace(/ /g, "-"),
+          validate: (arg: string): boolean => arg.length > 3,
         },
       ],
     });
@@ -37,10 +37,12 @@ module.exports = class RenameCommand extends Command {
     if (walletEntries.length > 0) {
       return await message.say("Name already in use on this server");
     }
-    const wallet = (await this.db.getWallets({
-      guildId: guild.id,
-      channelId: channel.id,
-    }))[0];
+    const wallet = (
+      await this.db.getWallets({
+        guildId: guild.id,
+        channelId: channel.id,
+      })
+    )[0];
     const guildChannel = guild.channels.find((c) => c.id === channel.id);
     if (guildChannel != null) {
       wallet.name = name;
