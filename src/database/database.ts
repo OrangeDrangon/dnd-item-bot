@@ -5,6 +5,7 @@ import connect, {
   ConnectionPool,
 } from "@databases/pg";
 import { Wallet, WalletEntry, WalletQuery } from "../interfaces/wallet";
+import { generateQuery } from "../util/generateQuery";
 
 async function initializeDatabase(
   connectionPool: ConnectionPool
@@ -33,6 +34,7 @@ export interface Database {
   addWallet: (data: WalletEntry) => Promise<Wallet>;
   removeWallet: (queryParams: WalletQuery) => Promise<void>;
   getWallets: (queryParams: WalletQuery) => Promise<Wallet[]>;
+  updateWallet: (wallet: Wallet) => Promise<Wallet>;
 }
 
 export async function createDatabase({
@@ -64,21 +66,29 @@ export async function createDatabase({
       )[0];
     },
     removeWallet: async (queryParams: WalletQuery): Promise<void> => {
-      let query = sql`DELETE FROM wallets WHERE ${sql.join(
-        Object.keys(queryParams).map(
-          (key) => sql`"${key}" = ${(queryParams as any)[key]}`
-        ),
-        sql` AND `
-      )}`;
+      let query = generateQuery(
+        "DELETE FROM wallets WHERE",
+        queryParams,
+        "AND"
+      );
+      await connectionPool.query(query);
     },
     getWallets: async (queryParams: WalletQuery): Promise<Wallet[]> => {
-      let query = sql`SELECT * FROM wallets WHERE ${sql.join(
-        Object.keys(queryParams).map(
-          (key) => sql`"${key}" = ${(queryParams as any)[key]}`
-        ),
-        sql` AND `
-      )}`;
+      let query = generateQuery(
+        "SELECT * FROM wallets WHERE",
+        queryParams,
+        "AND"
+      );
       return (await connectionPool.query(query)) as Wallet[];
+    },
+    updateWallet: async (wallet: Wallet): Promise<Wallet> => {
+      let query = sql`${generateQuery(
+        sql`UPDATE wallets SET ${generateQuery("", wallet, ", ")} WHERE`,
+        { id: wallet.id, guildId: wallet.guildId },
+        "AND",
+        "RETURNING *"
+      )}`;
+      return (await connectionPool.query(query))[0];
     },
   };
 }

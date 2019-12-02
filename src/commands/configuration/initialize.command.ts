@@ -16,13 +16,27 @@ module.exports = class InitializeCommand extends Command {
       guildOnly: true,
       userPermissions: ["MANAGE_CHANNELS", "MANAGE_EMOJIS"],
       clientPermissions: ["MANAGE_CHANNELS", "MANAGE_EMOJIS"],
+      args: [
+        {
+          key: "name",
+          prompt: "The name of the channel and wallet to be created.",
+          type: "string",
+          default: "party-purse",
+          parse: (arg: string) => arg.replace(/ /g, "-"),
+          validate: (arg: string) => arg.length > 3,
+        },
+      ],
     });
     this.db = client.db;
   }
-  async run(message: CommandoMessage): Promise<Message | Message[]> {
+  async run(
+    message: CommandoMessage,
+    { name }: { name: string }
+  ): Promise<Message | Message[]> {
     const { guild } = message;
     const guildEntries = await this.db.getWallets({
       guildId: guild.id,
+      name,
     });
 
     let channel: TextChannel | undefined = undefined;
@@ -31,10 +45,9 @@ module.exports = class InitializeCommand extends Command {
       if (message.channel instanceof TextChannel) {
         parentId = message.channel.parentID;
       }
-      channel = (await guild.channels.create("items", {
+      channel = (await guild.channels.create(name, {
         type: "text",
         parent: parentId ? parentId.toString() : undefined,
-        topic: "Item tracking channel for the game!",
       })) as TextChannel;
     } else {
       return await message.say("Items channel already exists!");
@@ -53,12 +66,14 @@ module.exports = class InitializeCommand extends Command {
         await createCurrencyEmbed(guild, defaultCurrency)
       )) as Message;
 
+      let isDefault = name === "party-purse";
+
       this.db.addWallet({
         guildId: guild.id,
         channelId: channel.id,
         messageId: currencyMessage.id,
-        isDefault: true,
-        name: "Default Wallet",
+        isDefault,
+        name,
       });
 
       return await message.say(`Your new ${channel} channel has been created!`);

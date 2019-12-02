@@ -1,7 +1,7 @@
 
 
 export interface Wallet {
-  id: number;
+  readonly id: number;
   guildId: string;
   channelId: string;
   messageId: string;
