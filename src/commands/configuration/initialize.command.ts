@@ -62,9 +62,9 @@ module.exports = class InitializeCommand extends Command {
         copper: 0,
       };
 
-      const currencyMessage = (await channel.send(
+      const currencyMessage = await channel.send(
         await createCurrencyEmbed(guild, defaultCurrency)
-      )) as Message;
+      );
 
       const isDefault = name === "party-purse";
 

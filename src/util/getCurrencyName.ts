@@ -2,15 +2,25 @@ export function getCurrencyName(
   variation: string
 ): "platinum" | "gold" | "electrum" | "silver" | "copper" {
   switch (variation.toLowerCase()) {
-    case "platinum" || "p":
+    case "p":
       return "platinum";
-    case "gold" || "g":
+    case "platinum":
+      return "platinum";
+    case "g":
       return "gold";
-    case "electrum" || "e":
+    case "gold":
+      return "gold";
+    case "e":
       return "electrum";
-    case "silver" || "s":
+    case "electrum":
+      return "electrum";
+    case "s":
       return "silver";
-    case "copper" || "c":
+    case "silver":
+      return "silver";
+    case "c":
+      return "copper";
+    case "copper":
       return "copper";
     default:
       throw new Error("A valid currency was not provided.");

@@ -77,12 +77,11 @@ export async function createDatabase({
       )};`;
       return (await connectionPool.query(query)) as Wallet[];
     },
-    updateWallet: async (wallet: Wallet): Promise<Wallet> => {
+    updateWallet: async ({ id, ...queryParams }: Wallet): Promise<Wallet> => {
       const query = sql`UPDATE wallets SET ${generateCommaQuery(
-        wallet
+        queryParams
       )} WHERE ${generateAndQuery({
-        id: wallet.id,
-        guildId: wallet.guildId,
+        id,
       })} RETURNING *;`;
       return (await connectionPool.query(query))[0];
     },

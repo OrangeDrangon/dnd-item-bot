@@ -1,7 +1,6 @@
 import { Command, CommandoMessage } from "discord.js-commando";
 import { Client } from "../../util/client";
 import { Message } from "discord.js";
-// import { createCurrencyEmbed } from "../../util/createCurrencyEmbed";
 import { Database } from "../../database/database";
 import { getCurrencyName } from "../../util/getCurrencyName";
 import { createCurrencyEmbed } from "../../util/createCurrencyEmbed";
@@ -79,10 +78,6 @@ module.exports = class CurrencyCommand extends Command {
     const currencyName = getCurrencyName(variation);
     wallet[currencyName] += count;
     wallet = await this.db.updateWallet(wallet);
-    const embedMessage = channel.messages.find(
-      (msg) => msg.id === wallet.messageId
-    );
-    await message.delete();
     const currency: Currency = {
       platinum: wallet.platinum,
       gold: wallet.gold,
@@ -90,11 +85,15 @@ module.exports = class CurrencyCommand extends Command {
       silver: wallet.silver,
       copper: wallet.copper,
     };
-    if (embedMessage) {
-      return await embedMessage.edit(createCurrencyEmbed(guild, currency));
-    } else {
+    await message.delete();
+    try {
+      const embedMessage = await channel.messages.fetch(wallet.messageId);
+      return await embedMessage.edit(
+        await createCurrencyEmbed(guild, currency)
+      );
+    } catch (error) {
       const messageNew = await channel.send(
-        createCurrencyEmbed(guild, currency)
+        await createCurrencyEmbed(guild, currency)
       );
       wallet.messageId = messageNew.id;
       await this.db.updateWallet(wallet);
