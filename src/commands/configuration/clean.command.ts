@@ -27,6 +27,9 @@ export default class CleanCommand extends Command {
         })
       ).map((wallet) => wallet.messageId)
     );
+    if (blacklistedMessages.size === 0) {
+      return await message.say("This is not a wallet channel!");
+    }
     return (
       await channel.bulkDelete(
         (await channel.messages.fetch()).filter(
