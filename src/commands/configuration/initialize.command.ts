@@ -21,7 +21,7 @@ export default class InitializeCommand extends Command {
           key: "name",
           prompt: "The name of the channel and wallet to be created.",
           type: "string",
-          default: "party-purse",
+          default: "default",
           parse: (arg: string): string => arg.replace(/ /g, "-"),
           validate: (arg: string): boolean => arg.length > 3,
         },
@@ -34,13 +34,13 @@ export default class InitializeCommand extends Command {
     { name }: { name: string }
   ): Promise<Message | Message[]> {
     const { guild } = message;
-    const guildEntries = await this.db.getWallets({
+    const walletEntries = await this.db.getWallets({
       guildId: guild.id,
       name,
     });
 
     let channel: TextChannel | undefined = undefined;
-    if (guildEntries.length === 0) {
+    if (walletEntries.length === 0) {
       let parentId;
       if (message.channel instanceof TextChannel) {
         parentId = message.channel.parentID;
@@ -66,7 +66,7 @@ export default class InitializeCommand extends Command {
         await createCurrencyEmbed(guild, defaultCurrency)
       );
 
-      const isDefault = name === "party-purse";
+      const isDefault = walletEntries.length === 0;
 
       this.db.addWallet({
         guildId: guild.id,
