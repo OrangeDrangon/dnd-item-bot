@@ -1,7 +1,7 @@
 import { Command, CommandoMessage } from "discord.js-commando";
 import { Client } from "../../util/client";
 import { Message } from "discord.js";
-import { Database } from "../../database/database";
+import { Database } from "../../database";
 
 export default class CleanCommand extends Command {
   private db: Database;

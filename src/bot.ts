@@ -4,7 +4,7 @@ import sqlite from "sqlite";
 import path from "path";
 import dotenv from "dotenv";
 import { Client } from "./util/client";
-import { createDatabase } from "./database/database";
+import { createDatabase } from "./database";
 
 async function main(): Promise<void> {
   dotenv.config();

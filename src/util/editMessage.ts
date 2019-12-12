@@ -3,7 +3,7 @@ import { CommandoGuild } from "discord.js-commando";
 import { Wallet } from "../interfaces/wallet";
 import { createCurrencyEmbed } from "./createCurrencyEmbed";
 import { Currency } from "../interfaces/currency";
-import { Database } from "../database/database";
+import { Database } from "../database";
 
 export async function editMessage(
   guild: CommandoGuild,
