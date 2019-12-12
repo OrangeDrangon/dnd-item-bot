@@ -3,7 +3,7 @@ import { Database } from "../../database/database";
 import { Client } from "../../util/client";
 import { Message } from "discord.js";
 
-module.exports = class RenameCommand extends Command {
+export default class RenameCommand extends Command {
   private db: Database;
   constructor(client: Client) {
     super(client, {
@@ -11,6 +11,7 @@ module.exports = class RenameCommand extends Command {
       group: "configuration",
       description: "Renames the wallet and channel",
       memberName: "rename",
+      guildOnly: true,
       args: [
         {
           key: "name",
@@ -50,4 +51,4 @@ module.exports = class RenameCommand extends Command {
     }
     return await message.say(`Rename command. ${name}`);
   }
-};
+}

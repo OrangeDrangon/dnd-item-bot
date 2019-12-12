@@ -4,7 +4,7 @@ import { Client } from "../../util/client";
 import { createCurrencyEmbed } from "../../util/createCurrencyEmbed";
 import { Database } from "../../database/database";
 
-module.exports = class InitializeCommand extends Command {
+export default class InitializeCommand extends Command {
   private db: Database;
   constructor(client: Client) {
     super(client, {
@@ -81,4 +81,4 @@ module.exports = class InitializeCommand extends Command {
       return await message.say("Error creating new channel!");
     }
   }
-};
+}

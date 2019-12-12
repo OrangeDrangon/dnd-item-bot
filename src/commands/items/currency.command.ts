@@ -3,8 +3,8 @@ import { Client } from "../../util/client";
 import { Message } from "discord.js";
 import { Database } from "../../database/database";
 import { getCurrencyName } from "../../util/getCurrencyName";
-import { createCurrencyEmbed } from "../../util/createCurrencyEmbed";
 import { Currency } from "../../interfaces/currency";
+import { editMessage } from "../../util/editMessage";
 
 interface Args {
   variation:
@@ -21,7 +21,7 @@ interface Args {
   count: number;
 }
 
-module.exports = class CurrencyCommand extends Command {
+export default class CurrencyCommand extends Command {
   private db: Database;
   constructor(client: Client) {
     super(client, {
@@ -30,6 +30,7 @@ module.exports = class CurrencyCommand extends Command {
       group: "items",
       memberName: "currency",
       description: "Manipulates currency.",
+      guildOnly: true,
       args: [
         {
           key: "variation",
@@ -86,18 +87,6 @@ module.exports = class CurrencyCommand extends Command {
       copper: wallet.copper,
     };
     await message.delete();
-    try {
-      const embedMessage = await channel.messages.fetch(wallet.messageId);
-      return await embedMessage.edit(
-        await createCurrencyEmbed(guild, currency)
-      );
-    } catch (error) {
-      const messageNew = await channel.send(
-        await createCurrencyEmbed(guild, currency)
-      );
-      wallet.messageId = messageNew.id;
-      await this.db.updateWallet(wallet);
-      return messageNew;
-    }
+    return await editMessage(guild, channel, wallet, currency, this.db);
   }
-};
+}

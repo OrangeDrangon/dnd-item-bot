@@ -4,7 +4,8 @@ import { Currency } from "../interfaces/currency";
 
 export async function createCurrencyEmbed(
   guild: Guild,
-  currency: Currency
+  currency: Currency,
+  description?: string
 ): Promise<MessageEmbed> {
   const emojis = await getEmojis(guild, [
     {
@@ -37,7 +38,7 @@ export async function createCurrencyEmbed(
   return new MessageEmbed()
     .setColor("RANDOM")
     .setTitle("Coin")
-    .setDescription("The amount of coin the party has acquired.")
+    .setDescription(description || "The amount of coin the party has acquired.")
     .addField(`${emojis[0]}<-Platinum->${emojis[0]}`, currency.platinum, true)
     .addField(`${emojis[1]}<-Gold->${emojis[1]}`, currency.gold, true)
     .addField(`${emojis[2]}<-Electrum->${emojis[2]}`, currency.electrum, true)

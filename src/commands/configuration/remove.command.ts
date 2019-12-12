@@ -3,7 +3,7 @@ import { Client } from "../../util/client";
 import { Message } from "discord.js";
 import { Database } from "../../database/database";
 
-module.exports = class RemoveCommand extends Command {
+export default class RemoveCommand extends Command {
   private db: Database;
   constructor(client: Client) {
     super(client, {
@@ -52,4 +52,4 @@ module.exports = class RemoveCommand extends Command {
       return await message.author.send("Removed!");
     }
   }
-};
+}
