@@ -49,6 +49,6 @@ export default class RenameCommand extends Command {
       await guildChannel.setName(name, `Rename command by ${message.author}`);
       await this.db.updateWallet(wallet);
     }
-    return await message.say(`Rename command. ${name}`);
+    return await message.delete();
   }
 }
