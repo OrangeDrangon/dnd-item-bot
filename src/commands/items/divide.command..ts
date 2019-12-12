@@ -43,7 +43,7 @@ export default class DivideCommand extends Command {
     }
 
     const wallet = walletEntries[0];
-    const currency: Currency = {
+    const currencyDivided: Currency = {
       platinum: Math.floor(wallet.platinum / divisor),
       gold: Math.floor(wallet.gold / divisor),
       electrum: Math.floor(wallet.electrum / divisor),
@@ -62,6 +62,12 @@ export default class DivideCommand extends Command {
       (wallet as any)[key] = (remainderCurrency as any)[key];
     }
     await this.db.updateWallet(wallet);
-    return await message.say(await createCurrencyEmbed(guild, currency));
+    return await message.say(
+      await createCurrencyEmbed(
+        guild,
+        currencyDivided,
+        "Here is the divided currency for all of the members."
+      )
+    );
   }
 }
