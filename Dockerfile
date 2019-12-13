@@ -1,8 +1,8 @@
 FROM node:13.2-alpine
 
 RUN apk add --no-cache --update \
-    python \
-    build-base
+  python \
+  build-base
 
 WORKDIR /var/usr/app
 
