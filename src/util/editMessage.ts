@@ -1,9 +1,9 @@
 import { TextChannel, Message, DMChannel } from "discord.js";
 import { CommandoGuild } from "discord.js-commando";
-import { Wallet } from "interfaces/wallet";
+import { Wallet } from "../interfaces/wallet";
 import { createCurrencyEmbed } from "./createCurrencyEmbed";
-import { Currency } from "interfaces/currency";
-import { Database } from "database";
+import { Currency } from "../interfaces/currency";
+import { Database } from "../database";
 
 export async function editMessage(
   guild: CommandoGuild,
@@ -15,6 +15,8 @@ export async function editMessage(
 ): Promise<Message | Message[]> {
   try {
     const embedMessage = await channel.messages.fetch(wallet.messageId);
+    console.log(embedMessage.embeds);
+
     return await embedMessage.edit(
       await createCurrencyEmbed(guild, currency, description)
     );

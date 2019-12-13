@@ -4,8 +4,8 @@ import connect, {
   ConnectionParams,
   ConnectionPool,
 } from "@databases/pg";
-import { Wallet, WalletEntry, WalletQuery } from "interfaces/wallet";
-import { generateAndQuery, generateCommaQuery } from "util/generateQuery";
+import { Wallet, WalletEntry, WalletQuery } from "./interfaces/wallet";
+import { generateAndQuery, generateCommaQuery } from "./util/generateQuery";
 
 async function initializeDatabase(
   connectionPool: ConnectionPool
