@@ -1,9 +1,9 @@
 import { TextChannel, Message, DMChannel } from "discord.js";
 import { CommandoGuild } from "discord.js-commando";
-import { Wallet } from "../interfaces/wallet";
+import { Wallet } from "interfaces/wallet";
 import { createCurrencyEmbed } from "./createCurrencyEmbed";
-import { Currency } from "../interfaces/currency";
-import { Database } from "../database";
+import { Currency } from "interfaces/currency";
+import { Database } from "database";
 
 export async function editMessage(
   guild: CommandoGuild,

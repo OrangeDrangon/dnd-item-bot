@@ -1,6 +1,6 @@
 import { MessageEmbed, Guild } from "discord.js";
 import { getEmojis } from "./getEmojis";
-import { Currency } from "../interfaces/currency";
+import { Currency } from "interfaces/currency";
 
 export async function createCurrencyEmbed(
   guild: Guild,

@@ -1,6 +1,6 @@
 import { Command, CommandoMessage } from "discord.js-commando";
-import { Database } from "../../database";
-import { Client } from "../../util/client";
+import { Database } from "database";
+import { Client } from "util/client";
 import { Message } from "discord.js";
 
 export default class RenameCommand extends Command {

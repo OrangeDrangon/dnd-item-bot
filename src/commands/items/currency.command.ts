@@ -1,10 +1,10 @@
 import { Command, CommandoMessage } from "discord.js-commando";
-import { Client } from "../../util/client";
+import { Client } from "util/client";
 import { Message } from "discord.js";
-import { Database } from "../../database";
-import { getCurrencyName } from "../../util/getCurrencyName";
-import { Currency } from "../../interfaces/currency";
-import { editMessage } from "../../util/editMessage";
+import { Database } from "database";
+import { getCurrencyName } from "util/getCurrencyName";
+import { Currency } from "interfaces/currency";
+import { editMessage } from "util/editMessage";
 
 interface Args {
   variation:

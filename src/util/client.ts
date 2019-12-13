@@ -1,5 +1,5 @@
 import { CommandoClient, CommandoClientOptions } from "discord.js-commando";
-import { Database } from "../database";
+import { Database } from "database";
 
 export class Client extends CommandoClient {
   public db: Database;
