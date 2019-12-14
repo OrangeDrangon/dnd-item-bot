@@ -15,7 +15,10 @@ export async function editMessage(
 ): Promise<Message | Message[]> {
   try {
     const embedMessage = await channel.messages.fetch(wallet.messageId);
-    console.log(embedMessage.embeds);
+    if (embedMessage.embeds.length === 0) {
+      await embedMessage.delete();
+      throw new Error("Embed missing.");
+    }
 
     return await embedMessage.edit(
       await createCurrencyEmbed(guild, currency, description)
