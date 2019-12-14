@@ -1,10 +1,10 @@
 import { Command, CommandoMessage } from "discord.js-commando";
-import { Client } from "../../util/client";
+import { Client } from "../../utils/client";
 import { Database } from "../../database";
 import { Message } from "discord.js";
 import { Currency } from "../../interfaces/currency";
-import { createCurrencyEmbed } from "../../util/createCurrencyEmbed";
-import { editMessage } from "../../util/editMessage";
+import { createCurrencyEmbed } from "../../utils/createCurrencyEmbed";
+import { editMessage } from "../../utils/editMessage";
 
 export default class DivideCommand extends Command {
   private db: Database;

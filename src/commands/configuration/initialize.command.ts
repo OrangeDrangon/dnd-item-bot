@@ -1,7 +1,7 @@
 import { Command, CommandoMessage } from "discord.js-commando";
 import { Message, TextChannel } from "discord.js";
-import { Client } from "../../util/client";
-import { createCurrencyEmbed } from "../../util/createCurrencyEmbed";
+import { Client } from "../../utils/client";
+import { createCurrencyEmbed } from "../../utils/createCurrencyEmbed";
 import { Database } from "../../database";
 
 export default class InitializeCommand extends Command {
