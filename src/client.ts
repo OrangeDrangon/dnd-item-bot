@@ -2,15 +2,16 @@ import {
   AkairoClient,
   AkairoOptions,
   CommandHandler,
-  InhibitorHandler,
+  // InhibitorHandler,
   ListenerHandler,
 } from "discord-akairo";
 import { Database } from "./database";
 import { ClientOptions } from "discord.js";
+import path from "path";
 
 export class Client extends AkairoClient {
   public commandHandler: CommandHandler;
-  public inhibitorHandler: InhibitorHandler;
+  // public inhibitorHandler: InhibitorHandler;
   public listenerHandler: ListenerHandler;
   public db: Database;
   constructor(
@@ -24,21 +25,26 @@ export class Client extends AkairoClient {
     { db }: { db: Database }
   ) {
     super(akairoOptions, discordJsOptions);
+
     this.db = db;
+
     this.commandHandler = new CommandHandler(this, {
-      directory: "./commands/",
+      directory: path.join(__dirname, "commands"),
       prefix: "!",
       commandUtil: true,
       handleEdits: true,
     });
-    this.inhibitorHandler = new InhibitorHandler(this, {
-      directory: "./inhibitors/",
-    });
+
+    // this.inhibitorHandler = new InhibitorHandler(this, {
+    //   directory: "./inhibitors",
+    // });
+
     this.listenerHandler = new ListenerHandler(this, {
-      directory: "./listeners/",
+      directory: path.join(__dirname, "listeners"),
     });
+
     this.commandHandler.loadAll();
-    this.inhibitorHandler.loadAll();
+    // this.inhibitorHandler.loadAll();
     this.listenerHandler.loadAll();
   }
 }
