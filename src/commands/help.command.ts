@@ -37,6 +37,7 @@ export default class HelpCommand extends DndCommand {
       string,
       { useage: string; description: string }
     >();
+
     command.args?.forEach((arg) => {
       arg.id != null
         ? args.set(arg.id, {
@@ -118,18 +119,22 @@ export default class HelpCommand extends DndCommand {
     if (util == null) {
       throw new Error("Util object is undefined.");
     }
+
     const selector = args.selector?.toLowerCase();
     if (selector == null) {
       return await util.reply(this.getCatagoryList(this.handler.categories));
     }
+
     const category = this.handler.categories.get(selector);
     if (category != null) {
       return await util.reply(this.getCommandList(selector, category));
     }
+
     const command = this.handler.modules.get(selector);
     if (command != null) {
       return await util.reply(this.getCommand(command));
     }
+
     return await util.reply("No category or command found with that name.");
   }
 }

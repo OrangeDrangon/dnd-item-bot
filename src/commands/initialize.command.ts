@@ -24,27 +24,29 @@ export default class InitializeCommand extends DndCommand {
   }
   async exec(message: Message, { name }: { name: string }): Promise<Message> {
     const { guild, util } = message;
+
     if (guild == null) {
       throw new Error("Guild object is undefiend.");
     }
+
     if (util == null) {
       throw new Error("Util object is undefined.");
     }
+
     const walletEntries = await this.client.db.getWallets({
       guildId: guild.id,
       name,
     });
 
-    let channel: TextChannel | undefined = undefined;
     if (walletEntries.length > 0) {
       return await util.reply(`${name} channel already exists!`);
     }
 
     const parentId = (message.channel as TextChannel).parentID;
-    channel = (await guild.channels.create(name, {
+    const channel = await guild.channels.create(name, {
       type: "text",
       parent: parentId != null ? parentId : undefined,
-    })) as TextChannel;
+    });
 
     if (channel == null) {
       return await util.reply("Error creating new channel!");
@@ -62,9 +64,9 @@ export default class InitializeCommand extends DndCommand {
       await createCurrencyEmbed(guild, defaultCurrency)
     );
 
+    // remanant for if I change to a multi wallet per channel method
     const isDefault = walletEntries.length === 0;
-
-    this.client.db.addWallet({
+    await this.client.db.addWallet({
       guildId: guild.id,
       channelId: channel.id,
       messageId: currencyMessage.id,
