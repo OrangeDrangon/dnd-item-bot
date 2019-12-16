@@ -13,10 +13,9 @@ export default class PingCommand extends DndCommand {
 
   async exec(message: Message): Promise<Message> {
     const { util } = message;
-    if (util != null) {
-      return await util.reply("Pong!");
-    } else {
+    if (util == null) {
       throw new Error("Util object is undefined.");
     }
+    return await util.reply("Pong!");
   }
 }
