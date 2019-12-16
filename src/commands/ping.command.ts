@@ -1,12 +1,14 @@
-import { Command } from "discord-akairo";
 import { Message } from "discord.js";
+import { DndCommand } from "../command.class";
 
-export default class PingCommand extends Command {
+export default class PingCommand extends DndCommand {
   constructor() {
     super("ping", {
       aliases: ["ping"],
       editable: true,
       description: "Ping... pong.",
+      category: "utility",
+      typing: true,
     });
   }
 

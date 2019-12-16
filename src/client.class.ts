@@ -9,6 +9,12 @@ import { Database } from "./database";
 import { ClientOptions } from "discord.js";
 import path from "path";
 
+declare module "discord-akairo" {
+  interface AkairoClient {
+    db: Database;
+  }
+}
+
 export class Client extends AkairoClient {
   public commandHandler: CommandHandler;
   // public inhibitorHandler: InhibitorHandler;

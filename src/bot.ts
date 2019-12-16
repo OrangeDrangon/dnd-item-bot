@@ -1,7 +1,6 @@
 import "source-map-support/register";
-import path from "path";
 import dotenv from "dotenv";
-import { Client } from "./client";
+import { Client } from "./client.class";
 import { createDatabase } from "./database";
 
 async function main(): Promise<void> {
