@@ -1,6 +1,6 @@
 import { Command, CommandoMessage } from "discord.js-commando";
 import { Message, TextChannel } from "discord.js";
-import { Client } from "../../utils/client";
+import { Client } from "../../client";
 import { createCurrencyEmbed } from "../../utils/createCurrencyEmbed";
 import { Database } from "../../database";
 
