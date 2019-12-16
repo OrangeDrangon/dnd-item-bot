@@ -1,8 +1,7 @@
-import { Category, Command } from "discord-akairo";
+import { Category, Command, PrefixSupplier } from "discord-akairo";
 import { Message, MessageEmbed } from "discord.js";
 import { DndCommand } from "../command.class";
 import { Collection } from "discord.js";
-import { PrefixSupplier } from "discord-akairo";
 
 interface CommandData {
   prefix: string | string[] | PrefixSupplier;
