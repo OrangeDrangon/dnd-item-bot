@@ -8,7 +8,6 @@ export default class PingCommand extends DndCommand {
       editable: true,
       description: "Ping... pong.",
       category: "utility",
-      typing: true,
     });
   }
 

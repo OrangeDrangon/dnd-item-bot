@@ -15,10 +15,9 @@ export default class HelpCommand extends DndCommand {
     super("help", {
       aliases: ["help", "h"],
       description:
-        "Get a list of catagories, commands, or details about a specific command.",
+        "Get a list of catagories, commands, or details about a specific command. Provide a selector for more detail on any of those choices.",
       editable: true,
       category: "utility",
-      typing: true,
       args: [
         {
           id: "selector",
