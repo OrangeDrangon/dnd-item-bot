@@ -1,84 +1,85 @@
-import { Command, CommandoMessage } from "discord.js-commando";
-import { Client } from "../../utils/client";
 import { Message } from "discord.js";
-import { Database } from "../../database";
 import { getCurrencyName } from "../../utils/getCurrencyName";
 import { Currency } from "../../interfaces/currency";
 import { editMessage } from "../../utils/editMessage";
+import { DndCommand } from "../../customClasses/dndcommand.class";
+import { createPromptFunction } from "../../utils/createPromptFunction";
+
+const currencyOptions = ["p", "g", "e", "s", "c"];
+
+const currencyPromptString = currencyOptions.join(" | ");
 
 interface Args {
-  variation:
-    | "platinum"
-    | "gold"
-    | "electrum"
-    | "silver"
-    | "copper"
-    | "p"
-    | "g"
-    | "e"
-    | "s"
-    | "c";
+  variation: "p" | "g" | "e" | "s" | "c";
   count: number;
 }
 
-export default class CurrencyCommand extends Command {
-  private db: Database;
-  constructor(client: Client) {
-    super(client, {
-      name: "currency",
-      aliases: ["c"],
-      group: "items",
-      memberName: "currency",
-      description: "Manipulates currency.",
-      guildOnly: true,
+export default class CurrencyCommand extends DndCommand {
+  constructor() {
+    super("currency", {
+      aliases: ["currency", "c"],
+      category: "items",
+      description: "Manipulates the amount of currency.",
+      channel: "guild",
       args: [
         {
-          key: "variation",
-          prompt:
+          id: "variation",
+          description:
             "Type of the thing to add. <platinum | gold | electrum | silver | copper>.",
-          type: "string",
-          validate: (text: string): boolean =>
-            [
-              "platinum",
-              "gold",
-              "electrum",
-              "silver",
-              "copper",
-              "p",
-              "g",
-              "e",
-              "s",
-              "c",
-            ].includes(text.toLowerCase()),
+          type: currencyOptions,
+          prompt: {
+            start: createPromptFunction(
+              `Please enter the variation of currency you would like to modify. <${currencyPromptString}>`
+            ),
+            retry: createPromptFunction(
+              `Invalid type of currency. Please enter a valid option <${currencyPromptString}>`
+            ),
+          },
         },
         {
-          key: "count",
-          prompt: "Number to add or subtract",
+          id: "count",
+          description: "Number to add or subtract",
           type: "integer",
+          prompt: {
+            start: createPromptFunction(
+              "Please enter an integer for the amount of currency you would like to add or subtract."
+            ),
+            retry: createPromptFunction(
+              "Invalid integer. Please enter an integer for the amount of currency you would like to add or subtract."
+            ),
+          },
         },
       ],
     });
-    this.db = client.db;
   }
 
-  async run(
-    message: CommandoMessage,
-    { variation, count }: Args
-  ): Promise<Message | Message[]> {
-    const { guild, channel } = message;
-    const wallets = await this.db.getWallets({
+  async exec(message: Message, { variation, count }: Args): Promise<Message> {
+    const { guild, util, channel } = message;
+
+    if (util == null) {
+      throw new Error("Util object is undefined");
+    }
+
+    if (guild == null) {
+      throw new Error("Guild object is undefined.");
+    }
+
+    const wallets = await this.client.db.getWallets({
       guildId: guild.id,
       channelId: channel.id,
     });
+
     if (wallets.length === 0) {
-      return await message.say(
-        "Not in a wallet channel please run this command again in one."
+      return await util.reply(
+        "Not in a wallet channel please run this command again in a channel with one."
       );
     }
     let wallet = wallets[0];
     const currencyName = getCurrencyName(variation);
+
     wallet[currencyName] += count;
-    wallet = await this.db.updateWallet(wallet);
+    wallet = await this.client.db.updateWallet(wallet);
+
     const currency: Currency = {
       platinum: wallet.platinum,
       gold: wallet.gold,
@@ -86,7 +87,8 @@ export default class CurrencyCommand extends Command {
       silver: wallet.silver,
       copper: wallet.copper,
     };
+
     await message.delete();
-    return await editMessage(guild, channel, wallet, currency, this.db);
+    return await editMessage(guild, channel, wallet, currency, this.client.db);
   }
 }
