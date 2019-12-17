@@ -24,7 +24,7 @@ export default class RemoveCommand extends DndCommand {
               "Please reply with a valid channel mention."
             ),
             retry: createPromptFunction(
-              "That is not a valid channel mention. Please use the #<channel> syntax provided by Discord."
+              "That is not a valid channel mention. Please try again and use the #<channel> syntax provided by Discord."
             ),
           },
         },
