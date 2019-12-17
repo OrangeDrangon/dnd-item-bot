@@ -67,7 +67,7 @@ export default class HelpCommand extends DndCommand {
 
     catagories.forEach((category, key) => {
       const commands = category.map(
-        (command) => this.getCommandData(command).shortUseage
+        (command) => ">" + this.getCommandData(command).shortUseage
       );
       embed = embed.addField(key.toUpperCase(), commands.join("\n"), true);
     });
@@ -88,8 +88,7 @@ export default class HelpCommand extends DndCommand {
       const { useage, shortUseage } = this.getCommandData(command);
       embed = embed.addField(
         useage.length <= 256 ? useage : shortUseage,
-        command.description,
-        true
+        command.description
       );
     });
     return embed;
@@ -105,7 +104,7 @@ export default class HelpCommand extends DndCommand {
       .setColor("RANDOM");
 
     args.forEach((arg) => {
-      embed = embed.addField(arg.useage, arg.description, true);
+      embed = embed.addField(arg.useage, arg.description);
     });
 
     return embed;
