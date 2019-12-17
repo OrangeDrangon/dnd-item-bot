@@ -8,10 +8,12 @@
     "@types/lowdb": "^1.0.9",
     "@types/node": "^12.12.14",
     "@types/ws": "^6.0.4",
-    "discord-akairo": "discord-akairo/discord-akairo",
+    "better-sqlite3": "^5.4.3",
     "discord.js": "discordjs/discord.js",
+    "discord.js-commando": "discordjs/Commando",
     "dotenv": "^8.2.0",
     "source-map-support": "^0.5.16",
+    "sqlite": "^3.0.3",
     "typescript": "^3.7.2"
   },
   "scripts": {
