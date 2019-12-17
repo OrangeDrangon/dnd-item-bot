@@ -1,4 +1,4 @@
-import { DndCommand } from "../dndcommand.class";
+import { DndCommand } from "../../dndcommand.class";
 import { Message } from "discord.js";
 
 export default class GithubCommand extends DndCommand {

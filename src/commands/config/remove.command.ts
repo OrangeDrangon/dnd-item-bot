@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
-import { DndCommand } from "../dndcommand.class";
+import { DndCommand } from "../../dndcommand.class";
 import { TextChannel } from "discord.js";
-import { createPromptFunction } from "../utils/createPromptFunction";
+import { createPromptFunction } from "../../utils/createPromptFunction";
 
 export default class RemoveCommand extends DndCommand {
   constructor() {

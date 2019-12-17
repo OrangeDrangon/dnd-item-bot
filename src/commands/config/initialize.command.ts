@@ -1,7 +1,7 @@
 import { Message, TextChannel } from "discord.js";
-import { createCurrencyEmbed } from "../utils/createCurrencyEmbed";
-import { DndCommand } from "../dndcommand.class";
-import { createPromptFunction } from "../utils/createPromptFunction";
+import { createCurrencyEmbed } from "../../utils/createCurrencyEmbed";
+import { DndCommand } from "../../dndcommand.class";
+import { createPromptFunction } from "../../utils/createPromptFunction";
 
 export default class InitializeCommand extends DndCommand {
   constructor() {

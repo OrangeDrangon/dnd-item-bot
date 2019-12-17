@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { DndCommand } from "../dndcommand.class";
+import { DndCommand } from "../../dndcommand.class";
 
 export default class PingCommand extends DndCommand {
   constructor() {

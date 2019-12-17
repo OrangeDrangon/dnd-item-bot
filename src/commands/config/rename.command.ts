@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
-import { DndCommand } from "../dndcommand.class";
-import { createPromptFunction } from "../utils/createPromptFunction";
+import { DndCommand } from "../../dndcommand.class";
+import { createPromptFunction } from "../../utils/createPromptFunction";
 
 export default class RenameCommand extends DndCommand {
   constructor() {

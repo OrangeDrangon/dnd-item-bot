@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
-import { getCurrencyName } from "../utils/getCurrencyName";
-import { Currency } from "../interfaces/currency";
-import { editMessage } from "../utils/editMessage";
-import { DndCommand } from "../dndcommand.class";
-import { createPromptFunction } from "../utils/createPromptFunction";
+import { getCurrencyName } from "../../utils/getCurrencyName";
+import { Currency } from "../../interfaces/currency";
+import { editMessage } from "../../utils/editMessage";
+import { DndCommand } from "../../dndcommand.class";
+import { createPromptFunction } from "../../utils/createPromptFunction";
 
 const currencyOptions = ["p", "g", "e", "s", "c"];
 
