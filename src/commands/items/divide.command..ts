@@ -1,48 +1,63 @@
-import { Command, CommandoMessage } from "discord.js-commando";
-import { Client } from "../../utils/client";
-import { Database } from "../../database";
 import { Message } from "discord.js";
 import { Currency } from "../../interfaces/currency";
 import { createCurrencyEmbed } from "../../utils/createCurrencyEmbed";
 import { editMessage } from "../../utils/editMessage";
+import { DndCommand } from "../../customClasses/dndcommand.class";
+import { createPromptFunction } from "../../utils/createPromptFunction";
 
-export default class DivideCommand extends Command {
-  private db: Database;
-  constructor(client: Client) {
-    super(client, {
-      name: "divide",
-      aliases: ["d", "div", "split"],
+export default class DivideCommand extends DndCommand {
+  constructor() {
+    super("divide", {
+      aliases: ["divide", "d", "div", "split"],
       description:
         "This command calculates how much currency each person gets if it were to be divided.",
-      memberName: "divide",
-      group: "items",
-      guildOnly: true,
+      category: "items",
+      channel: "guild",
       args: [
         {
-          key: "divisor",
+          id: "divisor",
           type: "integer",
+          description: "Amount of groups to divide the party currency into.",
           default: 2,
-          prompt: "The amount of groups to divide into.",
+          prompt: {
+            start: createPromptFunction(
+              "The amount of groups to divide into as an integer."
+            ),
+            retry: createPromptFunction(
+              "Invalid integer. Please enter the amount of groups to divide into as an integer."
+            ),
+            optional: true,
+          },
         },
       ],
     });
-    this.db = client.db;
   }
 
-  async run(
-    message: CommandoMessage,
+  async exec(
+    message: Message,
     { divisor }: { divisor: number }
-  ): Promise<Message | Message[]> {
-    const { guild, channel } = message;
-    const walletEntries = await this.db.getWallets({
+  ): Promise<Message> {
+    const { guild, util, channel } = message;
+
+    if (guild == null) {
+      throw new Error("Guild object is undefiend.");
+    }
+
+    if (util == null) {
+      throw new Error("Util object is undefined.");
+    }
+
+    const walletEntries = await this.client.db.getWallets({
       guildId: guild.id,
       channelId: channel.id,
     });
+
     if (walletEntries.length == 0) {
-      return await message.say("No wallet in this channel.");
+      return await util.reply("No wallet in this channel.");
     }
 
-    const wallet = walletEntries[0];
+    let wallet = walletEntries[0];
+
     const currencyDivided: Currency = {
       platinum: Math.floor(wallet.platinum / divisor),
       gold: Math.floor(wallet.gold / divisor),
@@ -50,6 +65,7 @@ export default class DivideCommand extends Command {
       silver: Math.floor(wallet.silver / divisor),
       copper: Math.floor(wallet.copper / divisor),
     };
+
     const remainderCurrency: Currency = {
       platinum: wallet.platinum % divisor,
       gold: wallet.gold % divisor,
@@ -57,12 +73,19 @@ export default class DivideCommand extends Command {
       silver: wallet.silver % divisor,
       copper: wallet.copper % divisor,
     };
-    await editMessage(guild, channel, wallet, remainderCurrency, this.db);
-    for (const key in remainderCurrency) {
-      (wallet as any)[key] = (remainderCurrency as any)[key];
-    }
-    await this.db.updateWallet(wallet);
-    return await message.say(
+
+    await editMessage(
+      guild,
+      channel,
+      wallet,
+      remainderCurrency,
+      this.client.db
+    );
+
+    wallet = { ...wallet, ...remainderCurrency };
+
+    await this.client.db.updateWallet(wallet);
+    return await util.reply(
       await createCurrencyEmbed(
         guild,
         currencyDivided,
