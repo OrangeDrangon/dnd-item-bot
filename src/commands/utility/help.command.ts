@@ -1,6 +1,6 @@
 import { Category, Command, PrefixSupplier } from "discord-akairo";
 import { Message, MessageEmbed } from "discord.js";
-import { DndCommand } from "../../dndcommand.class";
+import { DndCommand } from "../../customClasses/dndcommand.class";
 import { Collection } from "discord.js";
 
 interface CommandData {

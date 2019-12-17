@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { DndCommand } from "../../dndcommand.class";
+import { DndCommand } from "../../customClasses/dndcommand.class";
 import { TextChannel } from "discord.js";
 import { createPromptFunction } from "../../utils/createPromptFunction";
 

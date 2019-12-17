@@ -1,14 +1,14 @@
 import "source-map-support/register";
 import dotenv from "dotenv";
-import { Client } from "./client.class";
+import { DndClient } from "./customClasses/dndclient.class";
 import { createDatabase } from "./database";
+
+process.on("uncaughtException", (error) => console.log(error));
 
 async function main(): Promise<void> {
   dotenv.config();
 
-  process.on("uncaughtException", (error) => console.log(error));
-
-  const client = new Client(
+  const client = new DndClient(
     {
       akairoOptions: {
         ownerID: "255482941876994059",
@@ -23,6 +23,7 @@ async function main(): Promise<void> {
           port: Number(process.env.DB_PORT),
         },
       }),
+      rootdir: __dirname,
     }
   );
 

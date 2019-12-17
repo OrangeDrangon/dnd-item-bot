@@ -5,7 +5,7 @@ import {
   // InhibitorHandler,
   ListenerHandler,
 } from "discord-akairo";
-import { Database } from "./database";
+import { Database } from "../database";
 import { ClientOptions } from "discord.js";
 import path from "path";
 
@@ -15,7 +15,7 @@ declare module "discord-akairo" {
   }
 }
 
-export class Client extends AkairoClient {
+export class DndClient extends AkairoClient {
   public commandHandler: CommandHandler;
   // public inhibitorHandler: InhibitorHandler;
   public listenerHandler: ListenerHandler;
@@ -28,14 +28,14 @@ export class Client extends AkairoClient {
       akairoOptions?: AkairoOptions;
       discordJsOptions?: ClientOptions;
     },
-    { db }: { db: Database }
+    { db, rootdir }: { db: Database; rootdir: string }
   ) {
     super(akairoOptions, discordJsOptions);
 
     this.db = db;
 
     this.commandHandler = new CommandHandler(this, {
-      directory: path.join(__dirname, "commands"),
+      directory: path.join(rootdir, "commands"),
       prefix: "!",
       commandUtil: true,
       handleEdits: true,
@@ -46,7 +46,7 @@ export class Client extends AkairoClient {
     // });
 
     this.listenerHandler = new ListenerHandler(this, {
-      directory: path.join(__dirname, "listeners"),
+      directory: path.join(rootdir, "listeners"),
     });
 
     this.commandHandler.loadAll();

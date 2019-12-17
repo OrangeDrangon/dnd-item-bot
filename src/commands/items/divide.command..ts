@@ -2,7 +2,7 @@ import { Message } from "discord.js";
 import { Currency } from "../../interfaces/currency";
 import { createCurrencyEmbed } from "../../utils/createCurrencyEmbed";
 import { editMessage } from "../../utils/editMessage";
-import { DndCommand } from "../../dndcommand.class";
+import { DndCommand } from "../../customClasses/dndcommand.class";
 import { createPromptFunction } from "../../utils/createPromptFunction";
 
 export default class DivideCommand extends DndCommand {
