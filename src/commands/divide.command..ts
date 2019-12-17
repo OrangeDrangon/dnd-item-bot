@@ -17,6 +17,7 @@ export default class DivideCommand extends DndCommand {
         {
           id: "divisor",
           type: "integer",
+          description: "Amount of groups to divide the party currency into.",
           default: 2,
           prompt: {
             start: createPromptFunction(
