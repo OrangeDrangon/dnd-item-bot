@@ -67,9 +67,9 @@ export default class HelpCommand extends DndCommand {
 
     catagories.forEach((category, key) => {
       const commands = category.map(
-        (command) => ">" + this.getCommandData(command).shortUseage
+        (command) => this.getCommandData(command).shortUseage
       );
-      embed = embed.addField(key.toUpperCase(), commands.join("\n"), true);
+      embed = embed.addField(key.toUpperCase(), commands.join("\n"));
     });
 
     return embed;
