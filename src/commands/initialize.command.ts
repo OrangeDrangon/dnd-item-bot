@@ -24,6 +24,7 @@ export default class InitializeCommand extends DndCommand {
             retry: createPromptFunction(
               "That was not a valid argument. Please respoond with a valid string."
             ),
+            optional: true,
           },
         },
       ],

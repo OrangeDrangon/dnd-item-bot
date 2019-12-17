@@ -12,7 +12,7 @@ export async function editMessage(
   currency: Currency,
   db: Database,
   description?: string
-): Promise<Message | Message[]> {
+): Promise<Message> {
   try {
     const embedMessage = await channel.messages.fetch(wallet.messageId);
     if (embedMessage.embeds.length === 0) {
