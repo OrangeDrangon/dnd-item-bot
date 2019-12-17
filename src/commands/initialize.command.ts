@@ -1,6 +1,7 @@
 import { Message, TextChannel } from "discord.js";
 import { createCurrencyEmbed } from "../utils/createCurrencyEmbed";
 import { DndCommand } from "../dndcommand.class";
+import { createPromptFunction } from "../utils/createPromptFunction";
 
 export default class InitializeCommand extends DndCommand {
   constructor() {
@@ -18,6 +19,12 @@ export default class InitializeCommand extends DndCommand {
             "The name of the channel and wallet to be created. It can be dash seperated.",
           type: "string",
           default: "default",
+          prompt: {
+            start: createPromptFunction("Please respond with a valid string."),
+            retry: createPromptFunction(
+              "That was not a valid argument. Please respoond with a valid string."
+            ),
+          },
         },
       ],
     });

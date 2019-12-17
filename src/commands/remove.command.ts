@@ -1,6 +1,7 @@
 import { Message } from "discord.js";
 import { DndCommand } from "../dndcommand.class";
 import { TextChannel } from "discord.js";
+import { createPromptFunction } from "../utils/createPromptFunction";
 
 export default class RemoveCommand extends DndCommand {
   constructor() {
@@ -16,12 +17,15 @@ export default class RemoveCommand extends DndCommand {
         {
           id: "channel",
           description:
-            "Link the channel with the #<name> syntax in order to remove the respective channel and wallet.",
+            "Mention the channel with the #<name> syntax in order to remove the respective channel and wallet.",
           type: "channelMention",
           prompt: {
-            start: "Please reply with a valid channel mention.",
-            retry:
-              "That is not a valid channel mention. Please use the #<channel> syntax provided by Discord.",
+            start: createPromptFunction(
+              "Please reply with a valid channel mention."
+            ),
+            retry: createPromptFunction(
+              "That is not a valid channel mention. Please use the #<channel> syntax provided by Discord."
+            ),
           },
         },
       ],
@@ -31,7 +35,7 @@ export default class RemoveCommand extends DndCommand {
   async exec(
     message: Message,
     { channel }: { channel: TextChannel }
-  ): Promise<Message> {
+  ): Promise<Message | undefined> {
     const { guild, util } = message;
 
     if (guild == null) {
@@ -65,11 +69,6 @@ export default class RemoveCommand extends DndCommand {
     }
 
     await toRemove.delete(`${message.author} ran the remove command.`);
-
-    try {
-      return await util.reply("Removed!");
-    } catch (error) {
-      return await message.author.send("Removed!");
-    }
+    return;
   }
 }
