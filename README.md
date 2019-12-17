@@ -1,5 +1,5 @@
 # dnd-item-bot
-A Discord Bot  fortracking D&amp;D money.
+A Discord Bot for tracking D&amp;D money.
 
 ## Aims
 
@@ -7,7 +7,7 @@ This bot aims to make it extremely convienent to track the money of parties thro
 
 ## Useage
 
-Using the bot is as simple as adding it to your server using the invite link (coming soon) and running the initialize command. 
+Using the bot is as simple as adding it to your server using the invite link (coming soon) and running the initialize command.
 
 It is required that you have the `MANAGE_CHANNELS` and `MANAGE_EMOJIS` permissions in order to initialize a new wallet.
 
@@ -21,7 +21,7 @@ It was a first attempt at using Akairo so it is not necessarily idiomatic Akairo
 
 ## Development
 
-In order to contribute all you need to do is fork and clone the repo. `docker-compose` should take care of running the database and bot together. 
+In order to contribute all you need to do is fork and clone the repo. `docker-compose` should take care of running the database and bot together.
 
 Before you can run the bot you need to create a `.env` file based off of the `.env.sample` present in the repo. All of those variables are required in order to make the bot work.
 
