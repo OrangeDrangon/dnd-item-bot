@@ -5,33 +5,12 @@ import { editMessage } from "../utils/editMessage";
 import { DndCommand } from "../dndcommand.class";
 import { createPromptFunction } from "../utils/createPromptFunction";
 
-const currencyOptions = [
-  "platinum",
-  "gold",
-  "electrum",
-  "silver",
-  "copper",
-  "p",
-  "g",
-  "e",
-  "s",
-  "c",
-];
+const currencyOptions = ["p", "g", "e", "s", "c"];
 
 const currencyPromptString = currencyOptions.join(" | ");
 
 interface Args {
-  variation:
-    | "platinum"
-    | "gold"
-    | "electrum"
-    | "silver"
-    | "copper"
-    | "p"
-    | "g"
-    | "e"
-    | "s"
-    | "c";
+  variation: "p" | "g" | "e" | "s" | "c";
   count: number;
 }
 
