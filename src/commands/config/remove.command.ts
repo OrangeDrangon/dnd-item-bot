@@ -35,7 +35,7 @@ export default class RemoveCommand extends DndCommand {
   async exec(
     message: Message,
     { channel }: { channel: TextChannel }
-  ): Promise<Message | undefined> {
+  ): Promise<Message> {
     const { guild, util } = message;
 
     if (guild == null) {
@@ -69,6 +69,6 @@ export default class RemoveCommand extends DndCommand {
     }
 
     await toRemove.delete(`${message.author} ran the remove command.`);
-    return;
+    return await util.reply(`Suucess removing ${toRemove.name}.`);
   }
 }

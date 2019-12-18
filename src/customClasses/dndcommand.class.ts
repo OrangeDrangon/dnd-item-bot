@@ -1,3 +1,5 @@
+import { Message } from "discord.js";
+
 import {
   Command as AkairoCommand,
   CommandOptions,
@@ -10,15 +12,27 @@ declare module "discord-akairo" {
   }
 }
 
-export class DndCommand extends AkairoCommand {
+interface DndArgumentOptions extends ArgumentOptions {
+  id: string;
+  description: string;
+}
+
+interface DndCommandOptions extends CommandOptions {
+  aliases: string[];
+  description: string;
+  category: string;
+  args?: DndArgumentOptions[];
+}
+
+export abstract class DndCommand extends AkairoCommand {
   public args: ArgumentOptions[] | undefined;
-  constructor(identifier: string, options?: CommandOptions) {
+  constructor(identifier: string, options?: DndCommandOptions) {
     super(identifier, options);
-    if (
-      options?.args != null &&
-      (options?.args as ArgumentOptions[])[0] != null
-    ) {
-      this.args = options?.args as ArgumentOptions[];
-    }
+    this.args = options?.args;
   }
+
+  abstract async exec(
+    message: Message,
+    args?: unknown
+  ): Promise<Message | Message[]>;
 }

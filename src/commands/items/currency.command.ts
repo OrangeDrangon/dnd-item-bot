@@ -24,8 +24,7 @@ export default class CurrencyCommand extends DndCommand {
       args: [
         {
           id: "variation",
-          description:
-            "Type of the thing to add. <platinum | gold | electrum | silver | copper>.",
+          description: `Type of the thing to add. <${currencyPromptString}>.`,
           type: currencyOptions,
           prompt: {
             start: createPromptFunction(
