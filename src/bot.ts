@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { DndClient } from "./customClasses/dndclient.class";
 import { createDatabase } from "./database";
 
-process.on("uncaughtException", (error) => console.log(error));
+export const rootDir = __dirname;
 
 async function main(): Promise<void> {
   dotenv.config();
