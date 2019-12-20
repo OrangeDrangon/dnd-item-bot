@@ -1,0 +1,45 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "tsc-watch",
+      "command": "yarn",
+      "args": ["watch"],
+      "type": "shell",
+      "isBackground": true,
+      "group": "build",
+      "problemMatcher": "$tsc-watch",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "docker-debug-stop",
+      "command": "yarn",
+      "args": ["docker-debug-stop"],
+      "type": "shell",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "post-debug-task-kill",
+      "type": "process",
+      "command": [
+        "${command:workbench.action.tasks.terminate}",
+        "${command:workbench.action.acceptSelectedQuickOpenItem}"
+      ],
+      "dependsOn": ["docker-debug-stop"]
+    }
+  ]
+}

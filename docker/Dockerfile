@@ -15,4 +15,4 @@ ADD ./src ./src
 
 RUN yarn build
 
-CMD ["node", "./build/bot.js"]
+CMD ["yarn", "start"]

@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch bot in docker",
+      "port": 9222,
+      "timeout": 10000,
+      "stopOnEntry": true,
+      "cwd": "${workspaceFolder}", // the root where everything is based on
+      "localRoot": "${workspaceFolder}", // root of all server files
+      "remoteRoot": "/var/usr/app", // workspace path which was set in the dockerfile
+      "outFiles": ["${workspaceFolder}/build/**/*.js"], // all compiled JavaScript files
+      "sourceMaps": true,
+      "preLaunchTask": "tsc-watch",
+      "postDebugTask": "post-debug-task-kill",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["docker-debug-up"],
+      "restart": true,
+    }
+  ]
+}

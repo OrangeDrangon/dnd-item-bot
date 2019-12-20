@@ -1,0 +1,19 @@
+version: "3.1"
+services:
+  bot:
+    build:
+      context: ../../.
+      dockerfile: ./docker/Dockerfile
+    links:
+      - db
+    command: yarn debug
+    volumes:
+      - ../../build:/var/usr/app/build
+    ports:
+      - "9222:9222"
+  db:
+    image: postgres:12.1
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      POSTGRES_USER: "${DB_USER}"
