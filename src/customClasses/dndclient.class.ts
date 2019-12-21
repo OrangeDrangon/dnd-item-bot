@@ -39,6 +39,7 @@ export class DndClient extends AkairoClient {
       prefix: "!",
       commandUtil: true,
       handleEdits: true,
+      allowMention: true,
     });
 
     // this.inhibitorHandler = new InhibitorHandler(this, {
