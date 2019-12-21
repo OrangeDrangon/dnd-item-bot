@@ -4,6 +4,7 @@ import { createCurrencyEmbed } from "../../utils/createCurrencyEmbed";
 import { editMessage } from "../../utils/editMessage";
 import { DndCommand } from "../../customClasses/dndcommand.class";
 import { createPromptFunction } from "../../utils/createPromptFunction";
+import { TextChannel } from "discord.js";
 
 export default class DivideCommand extends DndCommand {
   constructor() {
@@ -76,7 +77,7 @@ export default class DivideCommand extends DndCommand {
 
     await editMessage(
       guild,
-      channel,
+      channel as TextChannel,
       wallet,
       remainderCurrency,
       this.client.db

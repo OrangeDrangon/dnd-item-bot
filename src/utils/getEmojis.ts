@@ -19,14 +19,14 @@ export async function getEmoji(
       );
       emoji = await guild.emojis.create(fallbackUrl, name);
       logger.info(
-        `Successfully created ${name} emoji for ${guild.name}:${guild.id}`
+        `Successfully created ${name}:${emoji.id} emoji for ${guild.name}:${guild.id}`
       );
     } catch (error) {
       logger.error(error);
       return;
     }
   }
-  logger.info(`${name} emoji found ${emoji?.id} for ${guild.name}:${guild.id}`);
+  logger.info(`${name}:${emoji?.id} emoji found for ${guild.name}:${guild.id}`);
   return emoji;
 }
 

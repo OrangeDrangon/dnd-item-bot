@@ -1,6 +1,7 @@
 import { MessageEmbed, Guild } from "discord.js";
 import { getEmojis } from "./getEmojis";
 import { Currency } from "../interfaces/currency";
+import { logger } from "./logger";
 
 export async function createCurrencyEmbed(
   guild: Guild,
@@ -34,6 +35,8 @@ export async function createCurrencyEmbed(
         "https://raw.githubusercontent.com/OrangeDrangon/dnd-item-bot/6b516b8d829996bfd80d014b447a6654a9879fe4/coin_images/copper.png",
     },
   ]);
+
+  logger.info(`Creating currency embed for ${guild.name}:${guild.id}`);
 
   return new MessageEmbed()
     .setColor("RANDOM")
