@@ -14,10 +14,12 @@
       "outFiles": ["${workspaceFolder}/build/**/*.js"], // all compiled JavaScript files
       "sourceMaps": true,
       "preLaunchTask": "tsc-watch",
-      "postDebugTask": "post-debug-task-kill",
+      // "postDebugTask": "post-debug-task-kill",
       "runtimeExecutable": "yarn",
       "runtimeArgs": ["docker-debug-up"],
       "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }

@@ -9,6 +9,7 @@ services:
     command: yarn debug
     volumes:
       - ../../build:/var/usr/app/build
+      - ../../logs:/var/usr/app/build/logs
     ports:
       - "9222:9222"
   db:

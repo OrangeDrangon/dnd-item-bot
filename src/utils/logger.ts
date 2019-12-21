@@ -3,10 +3,22 @@ import { getPath } from "./getPath";
 
 export const logger = createLogger({
   level: "info",
-  format: format.json(),
+  format: format.combine(
+    format.timestamp({ format: "YYYY-MM-DD HH:mm:ss.SSS" }),
+    format.json()
+  ),
   transports: [
     new transports.Console({
-      format: format.combine(format.colorize(), format.prettyPrint()),
+      format: format.combine(
+        format.colorize(),
+        format.printf(
+          (info) =>
+            `[${((info as unknown) as { timestamp: string }).timestamp.replace(
+              " ",
+              "] ["
+            )}] ${info.level}: ${info.message}`
+        )
+      ),
     }),
     new transports.File({ filename: getPath("logs", "combined.log") }),
     new transports.File({

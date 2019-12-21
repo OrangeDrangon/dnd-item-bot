@@ -6,10 +6,13 @@ import connect, {
 } from "@databases/pg";
 import { Wallet, WalletEntry, WalletQuery } from "./interfaces/wallet";
 import { generateAndQuery, generateCommaQuery } from "./utils/generateQuery";
+import { logger } from "./utils/logger";
 
 async function initializeDatabase(
   connectionPool: ConnectionPool
 ): Promise<void> {
+  logger.info("Initializing database");
+  logger.info("Creating wallets channel if it does not exisit.");
   await connectionPool.query(sql`CREATE TABLE IF NOT EXISTS wallets (
     "id"            SERIAL PRIMARY KEY,
     "guildId"       VARCHAR(25) NOT NULL,
@@ -23,10 +26,12 @@ async function initializeDatabase(
     "silver"        INT NOT NULL,
     "copper"        INT NOT NULL
   );`);
+  logger.info("Successfully created wallets table.");
+  logger.info("Creating guildId index for faster searches.");
   await connectionPool.query(
     sql`CREATE INDEX IF NOT EXISTS "guildIdIndex" ON wallets ("guildId");`
   );
-  console.log("Database initizalized!");
+  logger.info("Successfully created guildId index.");
 }
 
 export interface Database {

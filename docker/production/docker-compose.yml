@@ -6,6 +6,9 @@ services:
       dockerfile: ./docker/Dockerfile
     links:
       - db
+    volumes:
+      - ../../logs:/var/usr/app/build/logs
+
   db:
     image: postgres:12.1
     restart: always
