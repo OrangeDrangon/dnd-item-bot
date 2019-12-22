@@ -1,5 +1,7 @@
 import { Message } from "discord.js";
 import { DndCommand } from "../../customClasses/dndcommand.class";
+import { logger } from "../../utils/logger";
+import { TextChannel } from "discord.js";
 
 export default class CleanCommand extends DndCommand {
   constructor() {
@@ -17,33 +19,47 @@ export default class CleanCommand extends DndCommand {
   }
 
   async exec(message: Message): Promise<Message | Message[]> {
-    const { channel, guild, util } = message;
+    const { guild, util } = message;
+    const channel = message.channel as TextChannel;
 
     if (util == null) {
-      throw new Error("Util object is undefined.");
+      logger.error("Util object is undefined.");
+      return await message.author.send(
+        "Internal error you should not see this."
+      );
     }
 
     if (guild == null) {
-      throw new Error("Guild object is undefined.");
+      logger.error("Guild object is undefined.");
+      return await message.author.send(
+        "Internal error you should not see this."
+      );
     }
 
-    const blacklistedMessages = new Set(
-      (
-        await this.client.db.getWallets({
-          guildId: guild.id,
-          channelId: channel.id,
-        })
-      ).map((wallet) => wallet.messageId)
+    logger.info(
+      `Fetching wallet messageIds for the ${channel.name}:${channel.id} channel in ${guild.name}:${guild.id}`
     );
+    const blacklistedMessages = (
+      await this.client.db.getWallets({
+        guildId: guild.id,
+        channelId: channel.id,
+      })
+    ).map((wallet) => wallet.messageId);
 
-    if (blacklistedMessages.size === 0) {
+    if (blacklistedMessages.length === 0) {
+      logger.warn(
+        `Did not find any wallets in the ${channel.name}:${channel.id} channel in ${guild.name}:${guild.id}`
+      );
       return await util.reply("This is not a wallet channel!");
     }
 
+    logger.info(
+      `Deleting the last 100 messages in ${channel.name}:${channel.id} channel in ${guild.name}:${guild.id}`
+    );
     return (
       await channel.bulkDelete(
         (await channel.messages.fetch()).filter(
-          (msg) => !blacklistedMessages.has(msg.id)
+          (msg) => !blacklistedMessages.includes(msg.id)
         )
       )
     ).array();
