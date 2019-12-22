@@ -18,7 +18,7 @@ export async function editMessage(
     logger.info(
       `Attempting to edit the currency message for ${channel.name}:${channel.id} ${guild.name}:${guild.id}`
     );
-    logger.info("Fetching message");
+    logger.info(`Fetching message: ${wallet.messageId}`);
     const embedMessage = await channel.messages.fetch(wallet.messageId);
     if (embedMessage.embeds.length === 0) {
       await embedMessage.delete();
