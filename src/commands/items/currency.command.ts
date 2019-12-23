@@ -4,6 +4,7 @@ import { Currency } from "../../interfaces/currency";
 import { editMessage } from "../../utils/editMessage";
 import { DndCommand } from "../../customClasses/dndcommand.class";
 import { createPromptFunction } from "../../utils/createPromptFunction";
+import { TextChannel } from "discord.js";
 
 const currencyOptions = ["p", "g", "e", "s", "c"];
 
@@ -88,6 +89,12 @@ export default class CurrencyCommand extends DndCommand {
     };
 
     await message.delete();
-    return await editMessage(guild, channel, wallet, currency, this.client.db);
+    return await editMessage(
+      guild,
+      channel as TextChannel,
+      wallet,
+      currency,
+      this.client.db
+    );
   }
 }

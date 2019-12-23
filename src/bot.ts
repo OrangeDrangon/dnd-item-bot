@@ -2,8 +2,7 @@ import "source-map-support/register";
 import dotenv from "dotenv";
 import { DndClient } from "./customClasses/dndclient.class";
 import { createDatabase } from "./database";
-
-process.on("uncaughtException", (error) => console.log(error));
+import { logger } from "./utils/logger";
 
 async function main(): Promise<void> {
   dotenv.config();
@@ -26,7 +25,7 @@ async function main(): Promise<void> {
       rootdir: __dirname,
     }
   );
-
+  logger.info("Beginning login process.");
   await client.login(process.env.TOKEN);
 }
 

@@ -1,5 +1,6 @@
 import { Listener } from "discord-akairo";
 import { getInviteLink } from "../utils/getInviteLink";
+import { logger } from "../utils/logger";
 
 export default class ReadyListener extends Listener {
   constructor() {
@@ -7,8 +8,9 @@ export default class ReadyListener extends Listener {
   }
 
   async exec(): Promise<void> {
+    logger.info("Bot is ready.");
+    logger.info("Setting presence.");
     await this.client.user?.setActivity("D&D", { type: "PLAYING" });
-    console.log("Bot is running...");
-    console.log("Invite link:", await getInviteLink(this.client));
+    logger.info(`Invite link: ${await getInviteLink(this.client)}`);
   }
 }

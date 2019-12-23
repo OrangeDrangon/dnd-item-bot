@@ -9,11 +9,17 @@ services:
     command: yarn debug
     volumes:
       - ../../build:/var/usr/app/build
+      - ../../logs:/var/usr/app/build/logs
     ports:
       - "9222:9222"
   db:
     image: postgres:12.1
     restart: always
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: "${DB_PASSWORD}"
       POSTGRES_USER: "${DB_USER}"
+
+volumes:
+  postgres-data:

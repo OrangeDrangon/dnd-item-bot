@@ -6,9 +6,17 @@ services:
       dockerfile: ./docker/Dockerfile
     links:
       - db
+    volumes:
+      - ../../logs:/var/usr/app/build/logs
+
   db:
     image: postgres:12.1
     restart: always
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: "${DB_PASSWORD}"
       POSTGRES_USER: "${DB_USER}"
+
+volumes:
+  postgres-data:
