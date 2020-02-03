@@ -6,7 +6,7 @@
     "@databases/pg": "^2.0.0",
     "@types/better-sqlite3": "^5.4.0",
     "@types/lowdb": "^1.0.9",
-    "@types/node": "^12.12.21",
+    "@types/node": "^13.7.0",
     "@types/ws": "^6.0.4",
     "discord-akairo": "discord-akairo/discord-akairo",
     "discord.js": "discordjs/discord.js",
